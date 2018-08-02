@@ -24,7 +24,7 @@ def create_algebra_problem_two_variables(letter1,letter2,answer1,answer2,problem
     assert(type(answer2) is int)
 
     a,b,c,d,e,f    = generate_components_two_vars(answer1,answer2,problem_type)
-    problem_string = problem_text_two_var(letter1,letter2,answer1,answer2,problem_type)
+    problem_string = problem_text_two_vars(a,b,c,d,e,f,letter1,letter2,problem_type)
     return problem_string
 
 def generate_components_one_var(answer,problem_type):

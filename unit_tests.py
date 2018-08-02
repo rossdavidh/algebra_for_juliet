@@ -137,6 +137,15 @@ class TestCreateAlgebraProblemFunctions(unittest.TestCase):
                     assert(problem_text.count(punct) == 2)
                 else:
                     assert(problem_text.count(punct) == 1)
+
+    def test_create_algebra_problem_two_variables_type_one(self):
+        for i in range(0,10):
+            answer1     = random.randrange(1,9,1)
+            answer2     = random.randrange(1,9,1)
+            a,b,c,d,e,f = generate_components_two_vars(answer1,answer2,'one') #ax + by = c, dx + ey = f
+            assert((a*answer1)+(b*answer2) == c)
+            assert((d*answer1)+(e*answer2) == f)
+        
         
 class TestParseTextFunctions(unittest.TestCase):
 

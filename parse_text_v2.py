@@ -1,6 +1,6 @@
 import sys
 import random
-from create_algebra_problems import create_algebra_problem_one_variable
+from create_algebra_problems import create_algebra_problem_one_variable,create_algebra_problem_two_variables
 
 PUZZLE_INTRO = '''
 <html>
@@ -148,23 +148,36 @@ def create_worksheet_file(nbr_for_char,ip_text_filepath):
     nbr_chars_processed      = 0
     power_of_one_levels      = ['one','two','three','four','five'] #not numbers, in case we get more descriptive later
     power_of_two_levels      = ['power_two_squared_only','power_two_one_squared_term','power_two_two_squared_terms']
+    two_variable_levels      = ['one']
+    number_of_pairs          = 3
+    holding_pen              = ''
     for char in sorted(nbr_for_char.keys()):
-        nbr_chars_processed += 1
-        if char == ' ':
-            char_to_print = '_'
-        elif char == '\n':
-            continue #no algebra problem for the eol character
+        most_common                     = ['_','e','t','a','o','n']
+        nbr_chars_processed            += 1
+        if char == '\n':
+            continue
+        char                           == char.replace(' ','_')
+        if number_of_pairs > 0 and len(holding_pen) < 1 and char in most_common:
+            holding_pen                 = char
+        elif number_of_pairs > 0 and len(holding_pen) > 0:
+            c1                          = holding_pen
+            a1                          = nbr_for_char[c1]
+            c2                          = char
+            a2                          = nbr_for_char[c2]
+            holding_pen                 = ''
+            level_for_these_chars       = random.choice(two_variable_levels)
+            worksheet_string           += create_algebra_problem_two_variables(c1,c2,a1,a2,level_for_these_chars)
+            number_of_pairs            -= 1
         else:
-            char_to_print    = char
-        if (char_to_print in ['_','e','t','a','o','n']):
-            level_for_this_char = random.choice(power_of_two_levels)
-        else:
-            level_for_this_char = random.choice(power_of_one_levels)
-        next_problem_string = create_algebra_problem_one_variable(char_to_print,nbr_for_char[char],level_for_this_char)
-        worksheet_string    += next_problem_string
-        worksheet_string    += '\n\n'
-    worksheet_string_filename = sys.argv[1].split('.')[0] + '_worksheet.txt'
-    worksheet_string_file = open(worksheet_string_filename,'w')
+            char_to_print       = char
+            if (char_to_print in most_common):
+                level_for_this_char = random.choice(power_of_two_levels)
+            else:
+                level_for_this_char = random.choice(power_of_one_levels)
+            worksheet_string           += create_algebra_problem_one_variable(char_to_print,nbr_for_char[char],level_for_this_char)
+        worksheet_string       += '\n\n'
+    worksheet_string_filename           = sys.argv[1].split('.')[0] + '_worksheet.txt'
+    worksheet_string_file               = open(worksheet_string_filename,'w')
     worksheet_string_file.write(worksheet_string)
     worksheet_string_file.close()
     return worksheet_string_filename
