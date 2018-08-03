@@ -80,7 +80,7 @@ def generate_components_two_vars(answer1,answer2,problem_type):
     return a,b,c,d,e,f
 
 def printable(letter):
-    if letter == '_':
+    if letter == '_' or letter == ' ':
         printable_letter = '[space]'
     elif letter == '\'':
         printable_letter = '[apostrophe]'

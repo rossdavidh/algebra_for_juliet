@@ -143,13 +143,12 @@ def create_puzzle_file(text_string,nbr_for_char,ip_text_filepath):
     puzzle_file.close()
     return puzzle_filename
 
-def create_worksheet_file(nbr_for_char,ip_text_filepath):
+def create_worksheet_file(nbr_for_char,ip_text_filepath,number_of_pairs):
     worksheet_string         = ''
     nbr_chars_processed      = 0
     power_of_one_levels      = ['one','two','three','four','five'] #not numbers, in case we get more descriptive later
     power_of_two_levels      = ['power_two_squared_only','power_two_one_squared_term','power_two_two_squared_terms']
     two_variable_levels      = ['one']
-    number_of_pairs          = 3
     holding_pen              = ''
     for char in sorted(nbr_for_char.keys()):
         most_common                     = ['_','e','t','a','o','n']
@@ -184,21 +183,23 @@ def create_worksheet_file(nbr_for_char,ip_text_filepath):
 
 if __name__ == "__main__":
     #first we analyze the text file that will be the solution
-    if len(sys.argv) < 1:
-        print('you need to provide the text file location')
+    if len(sys.argv) < 3:
+        print('you need to provide the text file location and number of two-variable equation pairs')
         sys.exit()
-    text_string              = convert_file_to_text_string(sys.argv[1])
-    char_counts              = count_char_frequencies(text_string)
-    cc_by_c                  = [(k, char_counts[k]) for k in sorted(char_counts, key=char_counts.get)]
+    input_filename            = sys.argv[1]
+    nbr_eq_pairs              = int(sys.argv[2])
+    text_string               = convert_file_to_text_string(input_filename)
+    char_counts               = count_char_frequencies(text_string)
+    cc_by_c                   = [(k, char_counts[k]) for k in sorted(char_counts, key=char_counts.get)]
     #now we decide what number to substitute for each character in the puzzle
-    nbr_for_char             = {}
-    nbrs_to_choose_from      = list(range(1,99))
+    nbr_for_char              = {}
+    nbrs_to_choose_from       = list(range(1,99))
     random.shuffle(nbrs_to_choose_from)
     for char,next_nbr_to_assign in zip(cc_by_c,nbrs_to_choose_from):
         nbr_for_char[char[0]] = next_nbr_to_assign
     #create the puzzle string as a txt file with the same name
-    puzzle_filename          = create_puzzle_file(text_string,nbr_for_char,sys.argv[1])
+    puzzle_filename           = create_puzzle_file(text_string,nbr_for_char,input_filename)
     print('created puzzle ',puzzle_filename)
     #now we need to make the worksheet to use in solving the puzzle 
-    worksheet_filename       = create_worksheet_file(nbr_for_char,sys.argv[1])
+    worksheet_filename        = create_worksheet_file(nbr_for_char,input_filename,nbr_eq_pairs)
     print('created worksheet ',worksheet_filename)
