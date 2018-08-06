@@ -145,6 +145,18 @@ class TestCreateAlgebraProblemFunctions(unittest.TestCase):
             a,b,c,d,e,f = generate_components_two_vars(answer1,answer2,'one') #ax + by = c, dx + ey = f
             assert((a*answer1)+(b*answer2) == c)
             assert((d*answer1)+(e*answer2) == f)
+
+    def test_problem_text_two_var(self):
+        a = 2
+        b = 3
+        c = 4
+        d = 5
+        e = 6
+        f = 7
+        letter1 = 'x'
+        letter2 = 'y'
+        problem_text = problem_text_two_vars(a,b,c,d,e,f,letter1,letter2,'one')
+        assert(problem_text == '2x + 3y = 4    x = ___?\n5x + 6y = 7    y = ___?')
         
         
 class TestParseTextFunctions(unittest.TestCase):
