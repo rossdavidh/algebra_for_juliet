@@ -73,6 +73,14 @@ def generate_components_two_vars(answer1,answer2,problem_type):
     f     = 0
 
     if (problem_type == 'one'): #ax + by = c, dx + ey = f
+        while ((a*e) == (b*d)):
+            #In this specific case, the two supposedly different
+            #equations will actually be the same equation twice,
+            #albeit one multiplied by a constant.  This would not
+            #have a unique solution pair for the two variables,
+            #so we make sure to avoid that
+            d = determine_sign(random.randrange(1,9,1)) 
+            e = determine_sign(random.randrange(1,9,1))             
         c = (a * answer1) + (b * answer2)
         f = (d * answer1) + (e * answer2)
     else:

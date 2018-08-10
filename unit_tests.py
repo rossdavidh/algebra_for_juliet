@@ -102,6 +102,7 @@ class TestCreateAlgebraProblemFunctions(unittest.TestCase):
             a,b,c,d,e,f = generate_components_two_vars(answer1,answer2,'one')
             assert((a*answer1) + (b*answer2) == c)
             assert((d*answer1) + (e*answer2) == f)
+            assert((a*e) != (b*d))
 
     def test_problem_text_one_var(self):
         a = 2
